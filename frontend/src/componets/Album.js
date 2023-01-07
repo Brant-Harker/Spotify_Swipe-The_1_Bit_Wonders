@@ -1,4 +1,3 @@
-import Sliders from "./Sliders";
 import Music from "./Music";
 
 export default function Album({ src }) {
@@ -10,8 +9,6 @@ export default function Album({ src }) {
       <div className='d-flex align-items-center flex-column'>
         <img src="placeholder.jpg" className='w-75' />
         <Music />
-
-        <Sliders />
       </div>
 
     </>

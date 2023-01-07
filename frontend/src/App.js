@@ -2,10 +2,10 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+
 // components
 import Album from "./componets/Album";
-
-
+import PlayButton from './componets/PlayButton';
 
   
 function App() {
@@ -24,7 +24,8 @@ function App() {
           </h3>
         </div>
         <div className='border w-75 d-flex flex-column '>
-        <Album />
+          <Album />
+        <PlayButton />
 
         </div>
 
