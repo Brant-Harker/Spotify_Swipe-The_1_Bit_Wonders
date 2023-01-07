@@ -2,9 +2,18 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+// components
+import Album from "./componets/Album";
 
 
+
+  
 function App() {
+  const [value, setValue] = React.useState(30);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
   return (
     <div className="">
       <header className="d-flex align-items-center flex-column">
@@ -14,16 +23,12 @@ function App() {
             1 Bit Wonders
           </h3>
         </div>
-        <div className='border w-75'>
-          <div className='d-flex justify-content-center '>
-            <h3>Discovery Weekly</h3>
-          </div>
-          <div className='d-flex justify-content-center'>
-          <img src="placeholder.jpg" className='w-75' />
+        <div className='border w-75 d-flex flex-column '>
+        <Album />
 
-          </div>
-          
         </div>
+
+        
 
         <a
           className="App-link"
