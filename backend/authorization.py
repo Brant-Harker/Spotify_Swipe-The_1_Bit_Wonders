@@ -1,7 +1,7 @@
 """
 This module authorizes access to the Spotify API using Authorization Flow + PKCE
 """
-from hashlib import sha256
+import hashlib
 
 # Parameters
 client_id     = "980aa9bf0ae54f888ba9fb79bf1ba8b9"
@@ -12,3 +12,10 @@ scope         = "image-upload user-library-modify playlist-modify-private playli
 
 # PKCE Parameters
 code_challenge_method = "S256"
+
+h = hashlib.new('sha256')
+h.update(b"Super secret string that we will randomize later")
+code_challenge = h.digest()
+
+if __name__ == '__main__':
+    print(code_challenge)
