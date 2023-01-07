@@ -12,6 +12,11 @@ def api():
     return jsonify({'message': 'Hello, World!'})
 
 
+@app.route('/api/metadata', methods=['GET'])
+def metadata():
+    return jsonify({'message': 'Metadata endpoint'})
+
+
 # Endpoints required
 # Spotify authentication
 # Create a playlist
