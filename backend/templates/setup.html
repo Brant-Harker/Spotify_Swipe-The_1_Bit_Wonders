@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Setup</h1>
+<div id="setup">
+    <form method="post" data-ajax="false">
+        <div>
+            <label for="seed-track">Seed track</label>
+            <input type="text" id="seed-track" name="seed-track">
+        </div>
+        <div>
+            <label for="playlist-name">Playlist name</label>
+            <input type="text" id="playlist-name" name="playlist-name">
+        </div>
+        <div>
+            <label for="playlist-description">Playlist description</label>
+            <input type="text" id="playlist-description" name="playlist-description">
+        </div>
+        <div>
+            <div>
+                <button type="submit">Create playlist</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}

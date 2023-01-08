@@ -14,8 +14,7 @@ from urllib.parse import quote
 import os
 import playlists
 
-
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates', static_folder='static')
 
 #  Client Keys
 CLIENT_ID = "980aa9bf0ae54f888ba9fb79bf1ba8b9"
@@ -40,7 +39,9 @@ SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
 # User Parameters
 authorization_header = None
 profile_data = None
-playlist_id = "00BJGvmcH2cI0wNkRUvekS"
+playlist_id = None
+playlist_name = None
+playlist_description = None
 songs_added = []
 
 auth_query_parameters = {
@@ -60,13 +61,68 @@ seed_genres = []
 seed_tracks = ['0c6xIDDpzE81m2q797ordA']
 
 
-@app.route("/")
+def createplaylist(name, description=""):
+    # Get user ID
+    user_id = profile_data["id"]
+
+    print("Creating playlist for user {}".format(user_id))
+    print("Playlist name: {}".format(name))
+    print("Playlist description: {}".format(description))
+
+    # Get user playlist data
+    playlist_api_endpoint = "{}/playlists".format(profile_data["href"])
+    playlists_response = requests.get(playlist_api_endpoint, headers=authorization_header)
+    playlist_data = json.loads(playlists_response.text)
+
+    # Create Playlist
+    created_data = playlists.create_playlist(authorization_header, user_id, playlists.make_playlist_data(name, description))
+
+    global playlist_id
+    playlist_id = created_data["id"]
+
+    print("Created playlist with id {}".format(playlist_id))
+
+    # Combine profile and playlist data to display
+    display_arr = [profile_data] + [created_data]
+    # return render_template("index.html", sorted_array=display_arr)
+    return jsonify(display_arr)
+
+
+@app.route("/", methods=['GET', 'POST'])
 def index():
+    # Get arguments from url (seed-track, playlist-name, playlist-description)
+    if request.method == 'POST':
+        global playlist_name
+        global playlist_description
+
+        seed_track = request.form['seed-track']
+        playlist_name = request.form['playlist-name']
+        playlist_description = request.form['playlist-description']
+
+        # Extract track id from url
+        # Example url https://open.spotify.com/track/1K39t0GGnHiblUh8XZjNM3?si=7425eb3e5dc348a1
+        track_id = seed_track.split('/')[4].split('?')[0]
+
+        # If all arguments are given, redirect to route(/)
+        if seed_track and playlist_name:
+            return redirect('/auth')
+
+    return render_template('setup.html')
+
+
+@app.route("/auth")
+def auth():
     # Auth Step 1: Authorization
     url_args = "&".join(["{}={}".format(key, quote(val)) for key, val in auth_query_parameters.items()])
     auth_url = "{}/?{}".format(SPOTIFY_AUTH_URL, url_args)
     print(auth_url)
     return redirect(auth_url)
+
+
+# Create an app route to render the app page
+@app.route("/webapp")
+def webapp():
+    return render_template('app.html')
 
 
 @app.route("/callback/q")
@@ -98,45 +154,50 @@ def callback():
     profile_response = requests.get(user_profile_api_endpoint, headers=authorization_header)
     global profile_data
     profile_data = json.loads(profile_response.text)
-    return jsonify(profile_data)
+    # return jsonify(profile_data)
+    # redirect to webapp route
+    # Create playlist
+    createplaylist(playlist_name, playlist_description)
+
+    return redirect('/webapp')
 
 
-@app.route("/api/createplaylist")
-def createplaylist():
-    # Get playlist name from url
-    playlist_name = request.args.get('name')
+# @app.route("/api/createplaylist")
+# def createplaylist():
+#     # Get playlist name from url
+#     playlist_name = request.args.get('name')
 
-    # Get user ID
-    user_id = profile_data["id"]
+#     # Get user ID
+#     user_id = profile_data["id"]
 
-    # Get user playlist data
-    playlist_api_endpoint = "{}/playlists".format(profile_data["href"])
-    playlists_response = requests.get(playlist_api_endpoint, headers=authorization_header)
-    playlist_data = json.loads(playlists_response.text)
+#     # Get user playlist data
+#     playlist_api_endpoint = "{}/playlists".format(profile_data["href"])
+#     playlists_response = requests.get(playlist_api_endpoint, headers=authorization_header)
+#     playlist_data = json.loads(playlists_response.text)
 
-    # Create Playlist
+#     # Create Playlist
 
-    """
-    data = {
-        'name': 'Test Test',
-        'description': 'Test'
-    }
-    #data = json.dumps(data)
+#     """
+#     data = {
+#         'name': 'Test Test',
+#         'description': 'Test'
+#     }
+#     #data = json.dumps(data)
 
-    cplaylist_api_endpoint = "{}/users/{}/playlists".format(SPOTIFY_API_URL, user_id)
-    cplaylist_response = requests.post(cplaylist_api_endpoint, headers=authorization_header, json = data)
-    created_data = json.loads(cplaylist_response.text)
-    """
+#     cplaylist_api_endpoint = "{}/users/{}/playlists".format(SPOTIFY_API_URL, user_id)
+#     cplaylist_response = requests.post(cplaylist_api_endpoint, headers=authorization_header, json = data)
+#     created_data = json.loads(cplaylist_response.text)
+#     """
 
-    created_data = playlists.create_playlist(authorization_header, user_id, playlists.make_playlist_data(playlist_name))
+#     created_data = playlists.create_playlist(authorization_header, user_id, playlists.make_playlist_data(playlist_name))
 
-    global playlist_id
-    playlist_id = created_data["id"]
+#     global playlist_id
+#     playlist_id = created_data["id"]
 
-    # Combine profile and playlist data to display
-    display_arr = [profile_data] + [created_data]
-    # return render_template("index.html", sorted_array=display_arr)
-    return jsonify(display_arr)
+#     # Combine profile and playlist data to display
+#     display_arr = [profile_data] + [created_data]
+#     # return render_template("index.html", sorted_array=display_arr)
+#     return jsonify(display_arr)
 
 @app.route("/api/addsong")
 def addsong():

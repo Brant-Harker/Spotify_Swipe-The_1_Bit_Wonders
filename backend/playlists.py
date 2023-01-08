@@ -13,7 +13,7 @@ import main
 #====================================================================================
 # Create playlist
 
-def make_playlist_data(name, public = True, collaborative = False, description = ''):
+def make_playlist_data(name, description = '', public = True, collaborative = False):
     """
     Creates a data dictionary for a create playlist request.
 
