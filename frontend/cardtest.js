@@ -41,6 +41,12 @@ class Card {
     //   img.src = this.imageUrl;
     //   img.alt = this.imageText;
     //   card.append(img);
+      const albumCover = document.createElement("img"); 
+      albumCover.className = "albumCover";
+      albumCover.src = this.cover;
+      albumCover.style.width = "80%";
+      albumCover.style.height= "auto";
+      card.appendChild(albumCover);
 
       const songName = document.createElement("div"); 
       songName.className = "songName";
@@ -52,10 +58,6 @@ class Card {
       artistName.innerHTML = this.artist;
       card.appendChild(artistName);
   
-      const albumCover = document.createElement("img"); 
-      albumCover.className = "albumCover";
-      albumCover.src = this.cover;
-      card.appendChild(albumCover);
   
     //   document.getElementById('inside').appendChild(card);
 

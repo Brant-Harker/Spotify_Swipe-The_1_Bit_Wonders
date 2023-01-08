@@ -100,3 +100,30 @@ body {
     opacity: 1;
   }
 }
+
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
+.card {
+  background-color: white;
+  text-align: center;
+}
+.albumCover {
+  padding-top: 10%;
+  text-align: center;
+}
+.songName {
+  padding-left: 50px;
+  text-align: left;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 45px;
+  /* font-weight: 700; */
+}
+
+.artistName {
+  padding-left: 50px;
+  text-align: left;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 20px;
+  /* font-weight: 700; */
+}
