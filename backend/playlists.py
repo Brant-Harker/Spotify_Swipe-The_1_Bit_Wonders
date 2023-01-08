@@ -7,8 +7,6 @@ import json
 from flask import Flask, request, redirect, g, render_template, jsonify
 import requests
 from urllib.parse import quote
-import os
-from dotenv import load_dotenv
 
 import main
 

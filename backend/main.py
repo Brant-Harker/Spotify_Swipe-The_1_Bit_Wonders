@@ -5,11 +5,8 @@ from flask import Flask, request, redirect, g, render_template, jsonify
 import requests
 from urllib.parse import quote
 import os
-from dotenv import load_dotenv
-
 import playlists
 
-load_dotenv()
 
 app = Flask(__name__)
 
@@ -51,8 +48,8 @@ auth_query_parameters = {
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 
 #hardcode seeds
-seed_artists = ['4NHQUGzhtTLFvgF5SZesLK']
-seed_genres = ['classical','country']
+seed_artists = []
+seed_genres = []
 seed_tracks = ['0c6xIDDpzE81m2q797ordA']
 
 
@@ -170,7 +167,12 @@ def recommendations():
 
     artists = "%2C".join(seed_artists)
     genres = "%2C".join(seed_genres)
-    tracks = "%2C".join(seed_tracks)
+    if len(seed_tracks) > 5:
+        tracks = seed_tracks[-5:]
+    else:
+        tracks = seed_tracks
+
+    tracks = "%2C".join(tracks)
     BASE_URL = "https://api.spotify.com/v1/recommendations?limit=10&market=ES&seed_artists={artists}&seed_genres={genres}&seed_tracks={tracks}".format(artists=artists, genres=genres,tracks=tracks)
 
     data = requests.get(BASE_URL, headers=headers)
