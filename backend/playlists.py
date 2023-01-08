@@ -52,7 +52,7 @@ def add_song(authorization_header, playlist_id, song):
     song is a string of the song id.
     """
     data = {
-        'uris': [song]
+        'uris': ["spotify:track:" + song]
     }
 
     song_api_endpoint = "{}/playlists/{}/tracks".format(main.SPOTIFY_API_URL, playlist_id)
