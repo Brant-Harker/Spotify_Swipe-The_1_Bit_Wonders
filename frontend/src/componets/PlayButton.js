@@ -6,6 +6,8 @@ import Slider from '@mui/material/Slider';
 import IconButton from '@mui/material/IconButton';
 import PauseRounded from '@mui/icons-material/PauseRounded';
 import PlayArrowRounded from '@mui/icons-material/PlayArrowRounded';
+import FastForwardRounded from '@mui/icons-material/FastForwardRounded';
+import FastRewindRounded from '@mui/icons-material/FastRewindRounded';
 
 
 
@@ -36,7 +38,7 @@ const TinyText = styled(Typography)({
 export default function PlayButton() {
     const theme = useTheme();
     const duration = 200; // seconds
-    const [position, setPosition] = React.useState(32);
+    const [position, setPosition] = React.useState(0);
     const [paused, setPaused] = React.useState(false);
     function formatDuration(value) {
         const minute = Math.floor(value / 60);
@@ -105,7 +107,9 @@ export default function PlayButton() {
                     mt: -1,
                 }}
             >
-
+<IconButton aria-label="previous song">
+            <FastRewindRounded fontSize="large" htmlColor={mainIconColor} />
+          </IconButton>
                 <IconButton
                     aria-label={paused ? 'play' : 'pause'}
                     onClick={() => setPaused(!paused)}
@@ -119,6 +123,9 @@ export default function PlayButton() {
                         <PauseRounded sx={{ fontSize: '3rem' }} htmlColor={mainIconColor} />
                     )}
                 </IconButton>
+                <IconButton aria-label="next song">
+            <FastForwardRounded fontSize="large" htmlColor={mainIconColor} />
+          </IconButton>
 
             </Box>
 
