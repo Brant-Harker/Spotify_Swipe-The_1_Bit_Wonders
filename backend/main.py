@@ -68,7 +68,7 @@ def callback():
     refresh_token = response_data["refresh_token"]
     token_type = response_data["token_type"]
     expires_in = response_data["expires_in"]
-
+    
     # Auth Step 6: Use the access token to access Spotify API
     authorization_header = {"Authorization": "Bearer {}".format(access_token)}
 
@@ -77,6 +77,9 @@ def callback():
     profile_response = requests.get(user_profile_api_endpoint, headers=authorization_header)
     profile_data = json.loads(profile_response.text)
 
+    # Get user ID
+    user_id = profile_data["id"]
+
     # Get user playlist data
     playlist_api_endpoint = "{}/playlists".format(profile_data["href"])
     playlists_response = requests.get(playlist_api_endpoint, headers=authorization_header)
@@ -84,12 +87,12 @@ def callback():
 
     # Create Playlist
     data = {
-    'name': 'Test Test',
-    'description': 'Test'
+        'name': 'Test Test',
+        'description': 'Test'
     }
     #data = json.dumps(data)
 
-    cplaylist_api_endpoint = "{}/users/316a6z7vhu4ypo3e2dhbcwjmq464/playlists".format(SPOTIFY_API_URL)
+    cplaylist_api_endpoint = "{}/users/{}/playlists".format(SPOTIFY_API_URL, user_id)
     cplaylist_response = requests.post(cplaylist_api_endpoint, headers=authorization_header, json = data)
     created_data = json.loads(cplaylist_response.text)
 
