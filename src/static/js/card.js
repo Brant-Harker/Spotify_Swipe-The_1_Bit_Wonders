@@ -37,11 +37,11 @@ class Card {
         card.classList.add("card");
         card.className = "card";
 
-        //   const img = document.createElement('img');
-        //   // const text = document.createElement('div');
-        //   img.src = this.imageUrl;
-        //   img.alt = this.imageText;
-        //   card.append(img);
+        // card.style.backgroundImage= "url(" + this.cover + ")";
+
+        /* Add the blur effect */
+        card.style.background= "rgba(255, 255, 255, 0.2)";
+        card.style.backdropFilter = "blur(80px)";
         const albumCover = document.createElement("img");
         albumCover.className = "albumCover";
         albumCover.src = this.cover;
