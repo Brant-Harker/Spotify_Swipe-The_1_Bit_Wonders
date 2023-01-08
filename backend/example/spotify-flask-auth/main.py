@@ -26,7 +26,7 @@ SPOTIFY_API_URL = "{}/{}".format(SPOTIFY_API_BASE_URL, API_VERSION)
 CLIENT_SIDE_URL = "http://127.0.0.1"
 PORT = 8080
 REDIRECT_URI = "{}:{}/callback/q".format(CLIENT_SIDE_URL, PORT)
-SCOPE = "playlist-modify-public playlist-modify-private"
+SCOPE = "ugc-image-upload user-library-modify playlist-modify-private playlist-modify-public streaming"
 STATE = ""
 SHOW_DIALOG_bool = True
 SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
@@ -82,9 +82,22 @@ def callback():
     playlists_response = requests.get(playlist_api_endpoint, headers=authorization_header)
     playlist_data = json.loads(playlists_response.text)
 
+    # Create Playlist
+    data = {
+    'name': 'Test Test',
+    'description': 'Test'
+    }
+    #data = json.dumps(data)
+
+    cplaylist_api_endpoint = "{}/users/316a6z7vhu4ypo3e2dhbcwjmq464/playlists".format(SPOTIFY_API_URL)
+    cplaylist_response = requests.post(cplaylist_api_endpoint, headers=authorization_header, json = data)
+    created_data = json.loads(cplaylist_response.text)
+
     # Combine profile and playlist data to display
-    display_arr = [profile_data] + playlist_data["items"]
+    display_arr = [profile_data] + [created_data]
     return render_template("index.html", sorted_array=display_arr)
+
+
 
 
 if __name__ == "__main__":
