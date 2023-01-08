@@ -213,7 +213,9 @@ def addsong():
     api_data = playlists.add_song(authorization_header, playlist_id, song_id)
 
     display_arr = [api_data] + songs_added
-    return jsonify(display_arr)
+    
+    # Return success message
+    return jsonify("Track added to playlist")
 
 @app.route("/api/recommendations")
 def recommendations():
