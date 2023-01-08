@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react'
-import { ImageBackground, Text, View, Button } from 'react-native';
 import logo from './logo.svg';
 import TinderCard from 'react-tinder-card'
 import './App.css';
