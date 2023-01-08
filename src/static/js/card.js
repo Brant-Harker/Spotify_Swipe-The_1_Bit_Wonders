@@ -8,11 +8,12 @@ async function likedTrack(trackId) {
 }
 
 class Card {
-    constructor({ id, song, artist, cover, onDismiss, onLike, onDislike }) {
+    constructor({ id, song, artist, cover, onDismiss, onLike, onDislike, preview }) {
         this.id = id;
         this.song = song;
         this.artist = artist;
         this.cover = cover;
+        this.preview = preview;
         this.onDismiss = onDismiss;
         this.onLike = onLike;
         this.onDislike = onDislike;
@@ -45,6 +46,7 @@ class Card {
         const albumCover = document.createElement("img");
         albumCover.className = "albumCover";
         albumCover.src = this.cover;
+        card.setAttribute("data-preview", this.preview);
         albumCover.style.width = "80%";
         albumCover.style.height = "auto";
         card.appendChild(albumCover);

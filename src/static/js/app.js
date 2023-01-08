@@ -8,6 +8,20 @@ const dislike = document.querySelector("#dislike");
 // Variables
 let tracks = [];
 
+// Event listener on array update
+function playSong() {
+    // Get the top card
+    const topCard = swiper.querySelector(".card:not(.dismissing)");
+
+    // Console log the value of div with class of songName
+    console.log(topCard.querySelector(".songName").innerHTML);
+
+    // Get the value of data-preview attribute
+    const preview = topCard.getAttribute("data-preview");
+
+    console.log(preview);
+}
+
 // API service
 async function fetchRecommendations() {
     const response = await fetch("http://127.0.0.1:8080/api/recommendations");
@@ -47,11 +61,13 @@ function appendNewCard() {
         4: preview url
         5: spotify url
     */
+
     const card = new Card({
         id: tracks[cardCount % tracks.length][0],
         song: tracks[cardCount % tracks.length][1],
         artist: tracks[cardCount % tracks.length][2],
         cover: tracks[cardCount % tracks.length][3],
+        preview: tracks[cardCount % tracks.length][4],
         // imageUrl: tracks[cardCount % tracks.length],
         // imageText: `Image ${cardCount + 1}`,
         onDismiss: appendNewCard,
@@ -62,6 +78,7 @@ function appendNewCard() {
             if (tracks.length < 4) {
                 fetchRecommendations();
             }
+            playSong();
         },
         onDislike: () => {
             dislike.style.animationPlayState = "running";
@@ -70,6 +87,7 @@ function appendNewCard() {
             if (tracks.length < 4) {
                 fetchRecommendations();
             }
+            playSong();
         },
     });
     swiper.append(card.element);
@@ -86,12 +104,15 @@ setTimeout(() => {
     for (let i = 0; i < tracks.length; i++) {
         appendNewCard();
     }
+    // console.log(tracks[cardCount % tracks.length][1]);
+    // const cardNum = tracks[cardCount % tracks.length][1];
+    // console.log(cardNum);
 }, 1000);
 
-document.body.addEventListener("click", clickDemo);
-function clickDemo(e) {
-    var audio = new Audio(
-        "https://p.scdn.co/mp3-preview/254bb84cd1dddb6ca91db2ea027d551ae57824e8"
-    );
-    audio.play();
-}
+// document.body.addEventListener("click", clickDemo);
+// function clickDemo(e) {
+//     var audio = new Audio(
+//         "https://p.scdn.co/mp3-preview/254bb84cd1dddb6ca91db2ea027d551ae57824e8"
+//     );
+//     audio.play();
+// }
