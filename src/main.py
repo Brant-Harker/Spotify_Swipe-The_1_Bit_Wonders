@@ -1,5 +1,5 @@
 """
-Main file for backend. Authentification and all End Nodes.
+Flask application for tinder-like playlist creation
 
 References:
 Authentication with Spotify API:
@@ -49,16 +49,12 @@ auth_query_parameters = {
     "response_type": "code",
     "redirect_uri": REDIRECT_URI,
     "scope": SCOPE,
-    # "state": STATE,
-    # "show_dialog": SHOW_DIALOG_str,
     "client_id": CLIENT_ID
 }
 
 AUTH_URL = 'https://accounts.spotify.com/api/token'
 
-#hardcode seeds
-seed_artists = []
-seed_genres = []
+
 seed_tracks = ['0c6xIDDpzE81m2q797ordA']
 
 
@@ -85,7 +81,6 @@ def createplaylist(name, description=""):
 
     # Combine profile and playlist data to display
     display_arr = [profile_data] + [created_data]
-    # return render_template("index.html", sorted_array=display_arr)
     return jsonify(display_arr)
 
 
@@ -128,7 +123,7 @@ def webapp():
 
 @app.route("/callback/q")
 def callback():
-    # Auth Step 4: Requests refresh and access tokens
+    # Requests refresh and access tokens
     auth_token = request.args['code']
     code_payload = {
         "grant_type": "authorization_code",
@@ -139,14 +134,11 @@ def callback():
     }
     post_request = requests.post(SPOTIFY_TOKEN_URL, data=code_payload)
 
-    # Auth Step 5: Tokens are Returned to Application
+    # Tokens are Returned to Application
     response_data = json.loads(post_request.text)
     access_token = response_data["access_token"]
-    # refresh_token = response_data["refresh_token"]
-    # token_type = response_data["token_type"]
-    # expires_in = response_data["expires_in"]
 
-    # Auth Step 6: Use the access token to access Spotify API
+    # Use the access token to access Spotify API
     global authorization_header
     authorization_header = {"Authorization": "Bearer {}".format(access_token)}
 
@@ -155,8 +147,7 @@ def callback():
     profile_response = requests.get(user_profile_api_endpoint, headers=authorization_header)
     global profile_data
     profile_data = json.loads(profile_response.text)
-    # return jsonify(profile_data)
-    # redirect to webapp route
+
     # Create playlist
     createplaylist(playlist_name, playlist_description)
 
@@ -183,6 +174,7 @@ def addsong():
     # Return success message
     return jsonify("Track added to playlist")
 
+
 @app.route("/api/recommendations")
 def recommendations():
     auth_response = requests.post(AUTH_URL, {
@@ -201,9 +193,6 @@ def recommendations():
     'Authorization': 'Bearer {token}'.format(token=access_token)
     }
 
-    artists = "%2C".join(seed_artists)
-    genres = "%2C".join(seed_genres)
-
     tracks = None
 
     if len(seed_tracks) > 5:
@@ -212,27 +201,11 @@ def recommendations():
         tracks = seed_tracks
 
     tracks = "%2C".join(tracks)
-    BASE_URL = "https://api.spotify.com/v1/recommendations?limit=10&market=ES&seed_artists={artists}&seed_genres={genres}&seed_tracks={tracks}".format(artists=artists, genres=genres,tracks=tracks)
+    BASE_URL = "https://api.spotify.com/v1/recommendations?limit=10&market=ES&seed_tracks=" + tracks
 
     data = requests.get(BASE_URL, headers=headers)
     data = data.json()
-    # r = r["tracks"][0]
-    # return render_template("index.html", sorted_array=r)
     return data
-
-
-# Get track info
-@app.route("/api/trackinfo")
-def trackinfo():
-    # Get song id from url
-    song_id = request.args.get('id')
-
-    # Get track data
-    track_api_endpoint = "{}/tracks/{}".format(SPOTIFY_API_URL, song_id)
-    track_response = requests.get(track_api_endpoint, headers=authorization_header)
-    track_data = json.loads(track_response.text)
-
-    return jsonify(track_data["album"]["images"][0]["url"])
 
 
 if __name__ == "__main__":

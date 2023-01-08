@@ -1,3 +1,5 @@
+console.log("Card.js loaded");
+
 async function likedTrack(trackId) {
     console.log("Liked track: " + trackId);
     const response = await fetch(

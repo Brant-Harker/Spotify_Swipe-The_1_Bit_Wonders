@@ -1,3 +1,5 @@
+console.log("App.js loaded");
+
 // DOM
 const swiper = document.querySelector("#swiper");
 const like = document.querySelector("#like");
