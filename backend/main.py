@@ -1,4 +1,11 @@
 # pip install Flask python-dotenv requests
+"""
+Main file for backend. Authentification and all End Nodes.
+
+References:
+Authentication with Spotify API:
+https://github.com/drshrey/spotify-flask-auth-example/blob/master/main.py
+"""
 
 import json
 from flask import Flask, request, redirect, g, render_template, jsonify
