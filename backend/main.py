@@ -140,6 +140,40 @@ def addsong():
     display_arr = [api_data] + songs_added
     return jsonify(display_arr)
 
+AUTH_URL = 'https://accounts.spotify.com/api/token'
+seed_artists = ['4NHQUGzhtTLFvgF5SZesLK']
+seed_genres = ['classical','country']
+seed_tracks = ['0c6xIDDpzE81m2q797ordA']
+
+@app.route("/api/recommendations")
+def recommendations():
+    auth_response = requests.post(AUTH_URL, {
+        'grant_type': 'client_credentials',
+        'client_id': CLIENT_ID,
+        'client_secret': CLIENT_SECRET,
+    })
+
+    # convert the response to JSON
+    auth_response_data = auth_response.json()
+
+    # save the access token
+    access_token = auth_response_data['access_token']
+
+    headers = {
+    'Authorization': 'Bearer {token}'.format(token=access_token)
+    }
+
+    artists = "%2C".join(seed_artists)
+    genres = "%2C".join(seed_genres)
+    tracks = "%2C".join(seed_tracks)
+    BASE_URL = "https://api.spotify.com/v1/recommendations?limit=10&market=ES&seed_artists={artists}&seed_genres={genres}&seed_tracks={tracks}".format(artists=artists, genres=genres,tracks=tracks)
+
+    data = requests.get(BASE_URL, headers=headers)
+    data = data.json()
+    # r = r["tracks"][0]
+    # return render_template("index.html", sorted_array=r)
+    return data
+
 
 if __name__ == "__main__":
     app.run(debug=True, port=PORT)
