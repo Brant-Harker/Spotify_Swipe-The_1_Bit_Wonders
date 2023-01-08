@@ -11,6 +11,8 @@ import os
 from dotenv import load_dotenv
 
 import main
+
+#====================================================================================
 # Create playlist
 
 def make_playlist_data(name, public = True, collaborative = False, description = ''):
@@ -39,6 +41,23 @@ def create_playlist(authorization_header, user_id, data):
     cplaylist_api_endpoint = "{}/users/{}/playlists".format(main.SPOTIFY_API_URL, user_id)
     cplaylist_response = requests.post(cplaylist_api_endpoint, headers=authorization_header, json = data)
     return json.loads(cplaylist_response.text)
+
+#====================================================================================
+# Add song to playlist
+
+def addSong(authorization_header, playlist_id, song):
+    """
+    Adds song to the end of the playlist.
+
+    song is a string of the song id.
+    """
+    data = {
+        'uris': [song]
+    }
+
+    song_api_endpoint = "{}/playlists/{}/tracks".format(main.SPOTIFY_API_URL, playlist_id)
+    song_response = requests.post(cplaylist_api_endpoint, headers=authorization_header, json = data)
+    return json.loads(song_response.text)
 
 if __name__ == "__main__":
     x = "donothing"

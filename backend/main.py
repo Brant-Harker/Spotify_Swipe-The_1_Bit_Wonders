@@ -36,6 +36,7 @@ SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
 # User Parameters
 authorization_header = None
 profile_data = None
+playlist_id = None
 
 auth_query_parameters = {
     "response_type": "code",
