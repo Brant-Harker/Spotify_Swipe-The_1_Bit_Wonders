@@ -31,14 +31,6 @@ const fetchRecommendations = async () => {
     console.log(tracks);
 };
 
-const likedTrack = async (trackId) => {
-    const response = await fetch(
-        "http://127.0.0.0.1:8080/api/recommendations?id=" + trackId
-    );
-    const data = await response.json();
-    console.log(data);
-};
-
 window.onload = () => {
     fetchRecommendations();
 };
@@ -59,6 +51,7 @@ function appendNewCard() {
         5: spotify url
     */
     const card = new Card({
+        id: tracks[cardCount % tracks.length][0],
         song: tracks[cardCount % tracks.length][1],
         artist: tracks[cardCount % tracks.length][2],
         cover: tracks[cardCount % tracks.length][3],

@@ -204,6 +204,8 @@ def addsong():
     # Get song id from url
     song_id = request.args.get('id')
 
+    print("Add song id: " + song_id)
+
     global songs_added
     songs_added.append(song_id)
 
