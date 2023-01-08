@@ -1,5 +1,3 @@
-console.log("App.js loaded");
-
 // DOM
 const swiper = document.querySelector("#swiper");
 const like = document.querySelector("#like");
@@ -7,6 +5,8 @@ const dislike = document.querySelector("#dislike");
 
 // Variables
 let tracks = [];
+
+let audio = new Audio();
 
 // Event listener on array update
 function playSong() {
@@ -19,7 +19,14 @@ function playSong() {
     // Get the value of data-preview attribute
     const preview = topCard.getAttribute("data-preview");
 
-    console.log(preview);
+    // Stop any current audio
+    if (audio) {
+        audio.pause();
+    }
+
+    // Play the song (preview)
+    audio = new Audio(preview);
+    audio.play();
 }
 
 // API service
@@ -39,7 +46,6 @@ async function fetchRecommendations() {
             ]);
         }
     }, tracks);
-    console.log(tracks);
 }
 
 window.onload = () => {
@@ -104,15 +110,4 @@ setTimeout(() => {
     for (let i = 0; i < tracks.length; i++) {
         appendNewCard();
     }
-    // console.log(tracks[cardCount % tracks.length][1]);
-    // const cardNum = tracks[cardCount % tracks.length][1];
-    // console.log(cardNum);
 }, 1000);
-
-// document.body.addEventListener("click", clickDemo);
-// function clickDemo(e) {
-//     var audio = new Audio(
-//         "https://p.scdn.co/mp3-preview/254bb84cd1dddb6ca91db2ea027d551ae57824e8"
-//     );
-//     audio.play();
-// }

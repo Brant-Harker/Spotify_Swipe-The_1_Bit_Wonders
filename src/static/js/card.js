@@ -1,5 +1,3 @@
-console.log("Card.js loaded");
-
 async function likedTrack(trackId) {
     console.log("Liked track: " + trackId);
     const response = await fetch(
@@ -8,7 +6,16 @@ async function likedTrack(trackId) {
 }
 
 class Card {
-    constructor({ id, song, artist, cover, onDismiss, onLike, onDislike, preview }) {
+    constructor({
+        id,
+        song,
+        artist,
+        cover,
+        onDismiss,
+        onLike,
+        onDislike,
+        preview,
+    }) {
         this.id = id;
         this.song = song;
         this.artist = artist;
@@ -41,7 +48,7 @@ class Card {
         // card.style.backgroundImage= "url(" + this.cover + ")";
 
         /* Add the blur effect */
-        card.style.background= "rgba(255, 255, 255, 0.2)";
+        card.style.background = "rgba(255, 255, 255, 0.2)";
         card.style.backdropFilter = "blur(80px)";
         const albumCover = document.createElement("img");
         albumCover.className = "albumCover";
