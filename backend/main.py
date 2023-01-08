@@ -167,6 +167,9 @@ def recommendations():
 
     artists = "%2C".join(seed_artists)
     genres = "%2C".join(seed_genres)
+
+    tracks = None
+
     if len(seed_tracks) > 5:
         tracks = seed_tracks[-5:]
     else:
@@ -180,6 +183,20 @@ def recommendations():
     # r = r["tracks"][0]
     # return render_template("index.html", sorted_array=r)
     return data
+
+
+# Get track info
+@app.route("/api/trackinfo")
+def trackinfo():
+    # Get song id from url
+    song_id = request.args.get('id')
+
+    # Get track data
+    track_api_endpoint = "{}/tracks/{}".format(SPOTIFY_API_URL, song_id)
+    track_response = requests.get(track_api_endpoint, headers=authorization_header)
+    track_data = json.loads(track_response.text)
+
+    return jsonify(track_data["album"]["images"][0]["url"])
 
 
 if __name__ == "__main__":
