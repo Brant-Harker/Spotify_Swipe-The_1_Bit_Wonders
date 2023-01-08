@@ -76,10 +76,18 @@ function appendNewCard() {
         onLike: () => {
             like.style.animationPlayState = "running";
             like.classList.toggle("trigger");
+            tracks.splice(cardCount % tracks.length, 1);
+            if (tracks.length < 4) {
+                fetchRecommendations();
+            }
         },
         onDislike: () => {
             dislike.style.animationPlayState = "running";
             dislike.classList.toggle("trigger");
+            tracks.splice(cardCount % tracks.length, 1);
+            if (tracks.length < 4) {
+                fetchRecommendations();
+            }
         },
     });
     swiper.append(card.element);
