@@ -6,27 +6,7 @@ const dislike = document.querySelector("#dislike");
 // Variables
 let tracks = [];
 
-// API services
-// const fetchRecommendations = async () => {
-//     const response = await fetch("http://127.0.0.1:8080/api/recommendations");
-//     const data = await response.json();
-
-//     data.tracks.map((track) => {
-//         if (track.preview_url) {
-//             tracks.push([
-//                 track.id,
-//                 track.name,
-//                 track.artists[0].name,
-//                 track.album.images[0].url,
-//                 track.preview_url,
-//                 track.external_urls.spotify,
-//             ]);
-//         }
-//     }, tracks);
-
-//     console.log(tracks);
-// };
-
+// API service
 async function fetchRecommendations() {
     const response = await fetch("http://127.0.0.1:8080/api/recommendations");
     const data = await response.json();
