@@ -7,8 +7,6 @@ async function likedTrack(trackId) {
 
 class Card {
     constructor({
-        //   imageUrl,
-        //   imageText,
         song,
         artist,
         cover,
@@ -16,8 +14,6 @@ class Card {
         onLike,
         onDislike,
     }) {
-        //   this.imageUrl = imageUrl;
-        //   this.imageText = imageText;
         this.song = song;
         this.artist = artist;
         this.cover = cover;

@@ -1,7 +1,3 @@
-// const song = "song";
-// const artist = "artist";
-// const cover = "https://i.scdn.co/image/ab67616d0000b273409c576a374c0e7dc31f1dd3"
-
 // DOM
 const swiper = document.querySelector("#swiper");
 const like = document.querySelector("#like");
