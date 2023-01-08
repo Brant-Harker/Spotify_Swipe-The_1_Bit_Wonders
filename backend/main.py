@@ -12,8 +12,8 @@ load_dotenv()
 app = Flask(__name__)
 
 #  Client Keys
-CLIENT_ID = os.environ.get("CLIENT_ID")
-CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
+CLIENT_ID = "980aa9bf0ae54f888ba9fb79bf1ba8b9"
+CLIENT_SECRET = "57fcc1ddddff4f71b3d3a57494541ec0"
 
 # Spotify URLS
 SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize"
