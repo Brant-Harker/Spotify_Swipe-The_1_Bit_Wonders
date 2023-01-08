@@ -1,26 +1,56 @@
-const song = "song";
-const artist = "artist";
-const cover = "https://i.scdn.co/image/ab67616d0000b273409c576a374c0e7dc31f1dd3"
+// const song = "song";
+// const artist = "artist";
+// const cover = "https://i.scdn.co/image/ab67616d0000b273409c576a374c0e7dc31f1dd3"
     
-    var card = document.createElement("div"); 
-    card.className = "card";
+// DOM
+const swiper = document.querySelector('#swiper');
+const like = document.querySelector('#like');
+const dislike = document.querySelector('#dislike');
 
-    var songName = document.createElement("div"); 
-    songName.className = "songName";
-    songName.innerHTML += song;
-    card.appendChild(songName);
+// constants
+const urls = [
+  ["song", "artist", "https://i.scdn.co/image/ab67616d0000b273409c576a374c0e7dc31f1dd3"],
+  ["song", "artist", "https://i.scdn.co/image/ab67616d0000b273409c576a374c0e7dc31f1dd3"],
+  ["song", "artist", "https://i.scdn.co/image/ab67616d0000b273409c576a374c0e7dc31f1dd3"],
+  ["song", "artist", "https://i.scdn.co/image/ab67616d0000b273409c576a374c0e7dc31f1dd3"],
+  ["song", "artist", "https://i.scdn.co/image/ab67616d0000b273409c576a374c0e7dc31f1dd3"]
+];
 
-    var artistName = document.createElement("div"); 
-    artistName.className = "artistName";
-    artistName.innerHTML += artist;
-    card.appendChild(artistName);
+// variables
+let cardCount = 0;
 
-    var albumCover = document.createElement("img"); 
-    albumCover.className = "albumCover";
-    albumCover.src = cover;
-    card.appendChild(albumCover);
+// functions
+function appendNewCard() {
+  const card = new Card({
+    song: urls[cardCount % 5][0],
+    artist: urls[cardCount % 5][1],
+    cover: urls[cardCount % 5][2],
+    // imageUrl: urls[cardCount % 5],
+    // imageText: `Image ${cardCount + 1}`,
+    onDismiss: appendNewCard,
+    onLike: () => {
+      like.style.animationPlayState = 'running';
+      like.classList.toggle('trigger');
+    },
+    onDislike: () => {
+      dislike.style.animationPlayState = 'running';
+      dislike.classList.toggle('trigger');
+    }
+  });
+  swiper.append(card.element);
+  cardCount++;
 
-    document.getElementById('inside').appendChild(card);
+  const cards = swiper.querySelectorAll('.card:not(.dismissing)');
+  cards.forEach((card, index) => {
+    card.style.setProperty('--i', index);
+  });
+}
+
+// first 5 cards
+for (let i = 0; i < 5; i++) {
+  appendNewCard();
+}
+
 
 document.body.addEventListener("click", clickDemo)
 function clickDemo(e) {
