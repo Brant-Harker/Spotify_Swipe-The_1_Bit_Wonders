@@ -33,6 +33,10 @@ STATE = ""
 SHOW_DIALOG_bool = True
 SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
 
+# User Parameters
+authorization_header = None
+profile_data = None
+
 auth_query_parameters = {
     "response_type": "code",
     "redirect_uri": REDIRECT_URI,
@@ -48,6 +52,7 @@ def index():
     # Auth Step 1: Authorization
     url_args = "&".join(["{}={}".format(key, quote(val)) for key, val in auth_query_parameters.items()])
     auth_url = "{}/?{}".format(SPOTIFY_AUTH_URL, url_args)
+    print(auth_url)
     return redirect(auth_url)
 
 
@@ -67,18 +72,24 @@ def callback():
     # Auth Step 5: Tokens are Returned to Application
     response_data = json.loads(post_request.text)
     access_token = response_data["access_token"]
-    refresh_token = response_data["refresh_token"]
-    token_type = response_data["token_type"]
-    expires_in = response_data["expires_in"]
-    
+    # refresh_token = response_data["refresh_token"]
+    # token_type = response_data["token_type"]
+    # expires_in = response_data["expires_in"]
+
     # Auth Step 6: Use the access token to access Spotify API
+    global authorization_header
     authorization_header = {"Authorization": "Bearer {}".format(access_token)}
 
     # Get profile data
     user_profile_api_endpoint = "{}/me".format(SPOTIFY_API_URL)
     profile_response = requests.get(user_profile_api_endpoint, headers=authorization_header)
+    global profile_data
     profile_data = json.loads(profile_response.text)
+    return jsonify(profile_data)
 
+
+@app.route("/api/createplaylist")
+def createplaylist():
     # Get user ID
     user_id = profile_data["id"]
 
