@@ -45,7 +45,7 @@ def create_playlist(authorization_header, user_id, data):
 #====================================================================================
 # Add song to playlist
 
-def addSong(authorization_header, playlist_id, song):
+def add_song(authorization_header, playlist_id, song):
     """
     Adds song to the end of the playlist.
 
@@ -56,7 +56,7 @@ def addSong(authorization_header, playlist_id, song):
     }
 
     song_api_endpoint = "{}/playlists/{}/tracks".format(main.SPOTIFY_API_URL, playlist_id)
-    song_response = requests.post(cplaylist_api_endpoint, headers=authorization_header, json = data)
+    song_response = requests.post(song_api_endpoint, headers=authorization_header, json = data)
     return json.loads(song_response.text)
 
 if __name__ == "__main__":

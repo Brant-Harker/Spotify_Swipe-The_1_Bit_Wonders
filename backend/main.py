@@ -91,6 +91,9 @@ def callback():
 
 @app.route("/api/createplaylist")
 def createplaylist():
+    # Get playlist name from url
+    playlist_name = request.args.get('name')
+
     # Get user ID
     user_id = profile_data["id"]
 
@@ -113,11 +116,18 @@ def createplaylist():
     created_data = json.loads(cplaylist_response.text)
     """
 
-    created_data = playlists.create_playlist(authorization_header, user_id, playlists.make_playlist_data("Module"))
+    created_data = playlists.create_playlist(authorization_header, user_id, playlists.make_playlist_data(playlist_name))
 
     # Combine profile and playlist data to display
     display_arr = [profile_data] + [created_data]
     # return render_template("index.html", sorted_array=display_arr)
+    return jsonify(display_arr)
+
+@app.route("/api/addsong")
+def addsong():
+
+    api_data = playlists.add_song(authorization_header, "00BJGvmcH2cI0wNkRUvekS", "spotify:track:2c0NslS6dfGp1LT1iXbqyS")
+    display_arr = [api_data]
     return jsonify(display_arr)
 
 
