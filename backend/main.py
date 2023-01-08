@@ -13,6 +13,7 @@ from urllib.parse import quote
 from flask_cors import CORS
 import playlists
 
+
 app = Flask(__name__, template_folder='templates', static_folder='static')
 CORS(app)
 
@@ -161,43 +162,6 @@ def callback():
 
     return redirect('/webapp')
 
-
-# @app.route("/api/createplaylist")
-# def createplaylist():
-#     # Get playlist name from url
-#     playlist_name = request.args.get('name')
-
-#     # Get user ID
-#     user_id = profile_data["id"]
-
-#     # Get user playlist data
-#     playlist_api_endpoint = "{}/playlists".format(profile_data["href"])
-#     playlists_response = requests.get(playlist_api_endpoint, headers=authorization_header)
-#     playlist_data = json.loads(playlists_response.text)
-
-#     # Create Playlist
-
-#     """
-#     data = {
-#         'name': 'Test Test',
-#         'description': 'Test'
-#     }
-#     #data = json.dumps(data)
-
-#     cplaylist_api_endpoint = "{}/users/{}/playlists".format(SPOTIFY_API_URL, user_id)
-#     cplaylist_response = requests.post(cplaylist_api_endpoint, headers=authorization_header, json = data)
-#     created_data = json.loads(cplaylist_response.text)
-#     """
-
-#     created_data = playlists.create_playlist(authorization_header, user_id, playlists.make_playlist_data(playlist_name))
-
-#     global playlist_id
-#     playlist_id = created_data["id"]
-
-#     # Combine profile and playlist data to display
-#     display_arr = [profile_data] + [created_data]
-#     # return render_template("index.html", sorted_array=display_arr)
-#     return jsonify(display_arr)
 
 @app.route("/api/addsong")
 def addsong():
