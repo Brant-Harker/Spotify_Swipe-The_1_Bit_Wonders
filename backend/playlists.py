@@ -4,10 +4,7 @@ Creates and adds songs to user's playlists
 Needs user_id, playlist_name, public, collaborative, description
 """
 import json
-from flask import Flask, request, redirect, g, render_template, jsonify
 import requests
-from urllib.parse import quote
-
 import main
 
 #====================================================================================

@@ -1,4 +1,3 @@
-# pip install Flask python-dotenv requests
 """
 Main file for backend. Authentification and all End Nodes.
 
@@ -11,10 +10,11 @@ import json
 from flask import Flask, request, redirect, g, render_template, jsonify
 import requests
 from urllib.parse import quote
-import os
+from flask_cors import CORS
 import playlists
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
+CORS(app)
 
 #  Client Keys
 CLIENT_ID = "980aa9bf0ae54f888ba9fb79bf1ba8b9"
