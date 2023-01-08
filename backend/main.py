@@ -7,6 +7,8 @@ from urllib.parse import quote
 import os
 from dotenv import load_dotenv
 
+import playlists
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -86,6 +88,8 @@ def callback():
     playlist_data = json.loads(playlists_response.text)
 
     # Create Playlist
+
+    """
     data = {
         'name': 'Test Test',
         'description': 'Test'
@@ -95,6 +99,9 @@ def callback():
     cplaylist_api_endpoint = "{}/users/{}/playlists".format(SPOTIFY_API_URL, user_id)
     cplaylist_response = requests.post(cplaylist_api_endpoint, headers=authorization_header, json = data)
     created_data = json.loads(cplaylist_response.text)
+    """
+
+    created_data = playlists.create_playlist(authorization_header, user_id, playlists.make_playlist_data("Module"))
 
     # Combine profile and playlist data to display
     display_arr = [profile_data] + [created_data]
