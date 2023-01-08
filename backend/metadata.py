@@ -2,6 +2,15 @@
     This module requests metadata from the Spotify API and returns it to the frontend in JSON format.
 """
 
+from dotenv import load_dotenv
+
+
+# Spotify Authentication
+CLIENT_ID = os.environ.get("CLIENT_ID")
+CLIENT_SECRET = os.environ.get("CLIENT_SECRET")
+
+load_dotenv()
+
 # Song metadata class
 class Song:
     def __init__(self, name, artist, album, preview_url, image_url):

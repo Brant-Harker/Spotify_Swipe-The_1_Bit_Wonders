@@ -1,7 +1,7 @@
 # pip install Flask python-dotenv requests
 
 import json
-from flask import Flask, request, redirect, g, render_template
+from flask import Flask, request, redirect, g, render_template, jsonify
 import requests
 from urllib.parse import quote
 import os
@@ -95,9 +95,8 @@ def callback():
 
     # Combine profile and playlist data to display
     display_arr = [profile_data] + [created_data]
-    return render_template("index.html", sorted_array=display_arr)
-
-
+    # return render_template("index.html", sorted_array=display_arr)
+    return jsonify(display_arr)
 
 
 if __name__ == "__main__":
