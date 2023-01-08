@@ -48,6 +48,13 @@ auth_query_parameters = {
     "client_id": CLIENT_ID
 }
 
+AUTH_URL = 'https://accounts.spotify.com/api/token'
+
+#hardcode seeds
+seed_artists = ['4NHQUGzhtTLFvgF5SZesLK']
+seed_genres = ['classical','country']
+seed_tracks = ['0c6xIDDpzE81m2q797ordA']
+
 
 @app.route("/")
 def index():
@@ -135,15 +142,13 @@ def addsong():
     global songs_added
     songs_added.append(song_id)
 
+    global seed_tracks
+    seed_tracks.append(song_id)
+
     api_data = playlists.add_song(authorization_header, playlist_id, song_id)
 
     display_arr = [api_data] + songs_added
     return jsonify(display_arr)
-
-AUTH_URL = 'https://accounts.spotify.com/api/token'
-seed_artists = ['4NHQUGzhtTLFvgF5SZesLK']
-seed_genres = ['classical','country']
-seed_tracks = ['0c6xIDDpzE81m2q797ordA']
 
 @app.route("/api/recommendations")
 def recommendations():
