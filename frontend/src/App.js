@@ -79,15 +79,12 @@ const App = () => {
             <div className='w-75 d-flex flex-column align-items-center '>
               {characters.map((character, index) =>
                 <TinderCard ref={childRefs[index]} key={character.name} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}>
-                  <div className='position-absolute'>
                     <Album />
 
                     <div className='w-100 mb-3 mt-2'>
                       <PlayButton />
 
                     </div>
-                  </div>
-
                 </TinderCard>
               )}
             </div>
