@@ -34,7 +34,7 @@ const App = () => {
   const [characters, setCharacters] = useState(db)
   const [lastDirection, setLastDirection] = useState()
 
-  const childRefs = useMemo(() => Array(db.length).fill(1).map(i => React.createRef()), [])
+  const childRefs = useMemo(() => Array(db.length).fill(0).map(i => React.createRef()), [])
 
   const swiped = (direction, nameToDelete) => {
     console.log('removing: ' + nameToDelete + ' to the ' + direction)
@@ -77,18 +77,18 @@ const App = () => {
         <div className='w-75'>
           <div className='border d-flex flex-column align-items-center rounded'>
             <div className='w-75 d-flex flex-column align-items-center '>
-            {characters.map((character, index) =>
-            <TinderCard ref={childRefs[index]} key={character.name} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}> 
-            <div className='position-absolute'>
-            <Album />
+              {characters.map((character, index) =>
+                <TinderCard ref={childRefs[index]} key={character.name} onSwipe={(dir) => swiped(dir, character.name)} onCardLeftScreen={() => outOfFrame(character.name)}>
+                  <div className='position-absolute'>
+                    <Album />
 
-<div className='w-100 mb-3 mt-2'>
-  <PlayButton />
+                    <div className='w-100 mb-3 mt-2'>
+                      <PlayButton />
 
-</div>
-            </div>
-             
-              </TinderCard>
+                    </div>
+                  </div>
+
+                </TinderCard>
               )}
             </div>
           </div>
