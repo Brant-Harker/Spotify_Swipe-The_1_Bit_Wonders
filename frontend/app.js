@@ -21,3 +21,9 @@ const cover = "https://i.scdn.co/image/ab67616d0000b273409c576a374c0e7dc31f1dd3"
     card.appendChild(albumCover);
 
     document.getElementById('inside').appendChild(card);
+
+document.body.addEventListener("click", clickDemo)
+function clickDemo(e) {
+    var audio = new Audio('https://p.scdn.co/mp3-preview/254bb84cd1dddb6ca91db2ea027d551ae57824e8');
+    audio.play();
+}
