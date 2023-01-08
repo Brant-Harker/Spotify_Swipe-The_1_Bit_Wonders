@@ -45,14 +45,14 @@ def create_playlist(authorization_header, user_id, data):
 #====================================================================================
 # Add song to playlist
 
-def add_song(authorization_header, playlist_id, song):
+def add_song(authorization_header, playlist_id, song_id):
     """
     Adds song to the end of the playlist.
 
     song is a string of the song id.
     """
     data = {
-        'uris': ["spotify:track:" + song]
+        'uris': ["spotify:track:" + song_id]
     }
 
     song_api_endpoint = "{}/playlists/{}/tracks".format(main.SPOTIFY_API_URL, playlist_id)

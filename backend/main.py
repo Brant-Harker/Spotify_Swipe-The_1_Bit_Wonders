@@ -129,9 +129,15 @@ def createplaylist():
 
 @app.route("/api/addsong")
 def addsong():
+    # Get song id from url
+    song_id = request.args.get('id')
 
-    api_data = playlists.add_song(authorization_header, playlist_id, "5L8ta4ECl5zeA6bGqY7G38")
-    display_arr = [api_data]
+    global songs_added
+    songs_added.append(song_id)
+
+    api_data = playlists.add_song(authorization_header, playlist_id, song_id)
+
+    display_arr = [api_data] + songs_added
     return jsonify(display_arr)
 
 
